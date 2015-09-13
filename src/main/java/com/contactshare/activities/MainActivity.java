@@ -43,7 +43,6 @@ public class MainActivity extends ActionBarActivity {
                 return getResources().getColor(R.color.tabsScrollColor);
             }
         });
-
         // Setting the ViewPager For the SlidingTabsLayout
         tabs.setViewPager(pager);
     }
