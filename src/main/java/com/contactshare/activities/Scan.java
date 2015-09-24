@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,42 +28,50 @@ import com.google.zxing.qrcode.QRCodeWriter;
 public class Scan extends Fragment{
 
     static final String ACTION_SCAN = "com.google.zxing.client.android.SCAN";
-    private TextView conDetail;
+    private TextView conDetailHead;
     private EditText conName;
     private EditText conNumber;
     private EditText conEmail;
     private Button conSave;
     private ImageView conQR;
     private ImageView qrCode;
+    private ImageButton conEdit;
+    private ImageButton conScan;
     private SharedPreferences sharedPref;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.scan, container, false);
 
-        conDetail = (TextView)v.findViewById(R.id.con_head);
+        conDetailHead = (TextView)v.findViewById(R.id.con_head);
         conName = (EditText) v.findViewById(R.id.con_name);
         conNumber = (EditText) v.findViewById(R.id.con_number);
         conEmail = (EditText) v.findViewById(R.id.con_email);
         conSave = (Button) v.findViewById(R.id.con_save);
         conQR = (ImageView) v.findViewById(R.id.con_qr_code);
-        View qrLayout = v.findViewById(R.id.qr_layout);
+        conEdit = (ImageButton) v.findViewById(R.id.btn_edit);
+        conScan = (ImageButton) v.findViewById(R.id.btn_scan);
+        //QR code on display mode
+        qrCode = (ImageView) v.findViewById(R.id.qr_code);
+        final View conDataLayout = v.findViewById(R.id.contact_layout);
+        final View qrLayout = v.findViewById(R.id.qr_layout);
         qrLayout.setVisibility(View.GONE);
         sharedPref = getActivity().getSharedPreferences("pref",0);
-        String sharedName = sharedPref.getString("Name","Null");
+        String sharedName = sharedPref.getString("Name", "Null");
 
+        //Check if there is stored data
         if(sharedName!="Null"){
-            View conData = v.findViewById(R.id.contact_layout);
-            conData.setVisibility(View.GONE);
+            conDataLayout.setVisibility(View.GONE);
             qrLayout.setVisibility(View.VISIBLE);
-            qrCode = (ImageView) v.findViewById(R.id.qr_code);
             String sharedNumber = sharedPref.getString("Number","Null");
             String sharedEmail = sharedPref.getString("Email","Null");
             String contact = "Name"+sharedName+"No:"+sharedNumber+"Email:"+sharedEmail;
             qrCode.setImageBitmap(encodeToQrCode(contact, 500, 500));
         }
 
+        //Saving contact info
         conSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,6 +91,16 @@ public class Scan extends Fragment{
             }
         });
 
+        conEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                qrLayout.setVisibility(View.GONE);
+                conDataLayout.setVisibility(View.VISIBLE);
+                conName.setText(sharedPref.getString("Name","Null"));
+                conNumber.setText(sharedPref.getString("Number","Null"));
+                conEmail.setText(sharedPref.getString("Email","Null"));
+            }
+        });
         /*Intent intent = new Intent(ACTION_SCAN);
 
         intent.putExtra("SCAN_MODE", "QR_CODE_MODE");
