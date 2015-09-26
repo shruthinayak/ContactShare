@@ -1,6 +1,7 @@
 package com.contactshare.activities;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
@@ -8,7 +9,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.contactshare.R;
 import com.contactshare.utilities.Constants;
@@ -19,12 +19,10 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
     static final String ACTION_SCAN = "com.google.zxing.client.android.SCAN";
     private Context ctx;
-    private TextView txtConDetailHead;
     private EditText edtConName;
     private EditText edtConNumber;
     private EditText edtConEmail;
     private Button btnConSave;
-    private ImageView imgConQrCode;
     private ImageView imgQrCode;
     private ImageButton btnConEdit;
     private ImageButton btnConScan;
@@ -40,7 +38,6 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         initUI();
         setOnClickListeners();
 
-
         //Check if there is stored data
         if (Utilities.isInitialSetupDone(ctx)) {
             lytContactDetail.setVisibility(View.GONE);
@@ -50,6 +47,9 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             String sharedEmail = Utilities.getValueForKeyFromPref(ctx, Constants.KEY_EMAIL);
             String contact = "Name:" + sharedName + "No:" + sharedNumber + "Email:" + sharedEmail;
             imgQrCode.setImageBitmap(Utilities.encodeToQrCode(contact, 500, 500));
+        } else{
+            lytContactDetail.setVisibility(View.VISIBLE);
+            lytQrCode.setVisibility(View.GONE);
         }
     }
 
@@ -61,17 +61,20 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     private void initUI() {
         lytContactDetail = findViewById(R.id.lyt_contact_detail);
         lytQrCode = findViewById(R.id.lyt_qr_code);
-        txtConDetailHead = (TextView) findViewById(R.id.txt_con_head);
         edtConName = (EditText) findViewById(R.id.edt_con_name);
         edtConNumber = (EditText) findViewById(R.id.edt_con_number);
         edtConEmail = (EditText) findViewById(R.id.edt_con_email);
         btnConSave = (Button) findViewById(R.id.btn_con_save);
-        imgConQrCode = (ImageView) findViewById(R.id.img_con_qr_code);
         btnConEdit = (ImageButton) findViewById(R.id.btn_con_edit);
         btnConScan = (ImageButton) findViewById(R.id.btn_con_scan);
         //QR code on display mode
         imgQrCode = (ImageView) findViewById(R.id.img_qr_code);
         lytQrCode.setVisibility(View.GONE);
+        Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/Sabrinahandfont.ttf");
+        btnConSave.setTypeface(typeface);
+        edtConName.setTypeface(typeface);
+        edtConNumber.setTypeface(typeface);
+        edtConEmail.setTypeface(typeface);
 
     }
 
@@ -84,7 +87,9 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 String number = edtConNumber.getText().toString();
                 String email = edtConEmail.getText().toString();
                 String contact = "Name:" + name + "No:" + number + "Email:" + email;
-                imgConQrCode.setImageBitmap(Utilities.encodeToQrCode(contact, 500, 500));
+                lytContactDetail.setVisibility(View.GONE);
+                lytQrCode.setVisibility(View.VISIBLE);
+                imgQrCode.setImageBitmap(Utilities.encodeToQrCode(contact, 500, 500));
                 Utilities.putValueIntoSharedPref(ctx, Constants.KEY_NAME, name);
                 Utilities.putValueIntoSharedPref(ctx, Constants.KEY_EMAIL, email);
                 Utilities.putValueIntoSharedPref(ctx, Constants.KEY_NUMBER, number);

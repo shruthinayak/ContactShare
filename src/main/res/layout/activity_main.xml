@@ -6,67 +6,119 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/lyt_contact_detail"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:layout_marginTop="30dp"
         android:gravity="center_horizontal"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
 
-        <TextView
-            android:id="@+id/txt_con_head"
-            android:layout_width="fill_parent"
+        <ImageView
+            android:id="@+id/imgProfile"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:text="Contact Details"
-            android:textSize="20dp" />
+            android:layout_marginTop="20dp"
+            android:src="@drawable/profile" />
+
+        <ImageView
+            android:id="@+id/imgName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imgProfile"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/name" />
 
         <EditText
             android:id="@+id/edt_con_name"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:hint="Name" />
+            android:layout_below="@+id/imgProfile"
+            android:layout_marginTop="20dp"
+            android:layout_toRightOf="@+id/imgName"
+            android:hint="Name"
+
+            android:maxLength="140"
+            android:textColor="@color/ColorLockBlack"
+            android:textSize="25dp" />
+
+        <ImageView
+            android:id="@+id/imgPhone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/imgName"
+            android:layout_marginTop="20dp"
+
+            android:src="@drawable/phone" />
 
         <EditText
             android:id="@+id/edt_con_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/imgPhone"
+            android:layout_below="@+id/edt_con_name"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/imgPhone"
             android:hint="Number"
-            android:inputType="phone" />
+            android:inputType="phone"
+            android:maxLength="140"
+            android:textColor="@color/ColorLockBlack"
+            android:textSize="25dp" />
+
+        <ImageView
+            android:id="@+id/imgEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/imgPhone"
+            android:layout_marginTop="20dp"
+
+            android:src="@drawable/mail" />
 
         <EditText
             android:id="@+id/edt_con_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="email"
-            android:inputType="textEmailAddress" />
+            android:layout_alignBottom="@id/imgEmail"
+            android:layout_below="@+id/edt_con_number"
+            android:layout_marginTop="20dp"
+            android:layout_toRightOf="@id/imgEmail"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            android:maxLength="140"
+            android:textColor="@color/ColorLockBlack"
+            android:textSize="25dp" />
 
         <Button
             android:id="@+id/btn_con_save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/imgEmail"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/ColorLockGreen"
             android:text="Save" />
 
-        <ImageView
-            android:id="@+id/img_con_qr_code"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+    </RelativeLayout>
 
-    </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/lyt_qr_code"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_margin="10dp"
-        android:gravity="center_horizontal">
+        android:gravity="center_horizontal"
+        android:visibility="visible">
 
 
         <ImageView
+
             android:id="@+id/img_qr_code"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="100dp"
+            android:layout_marginTop="50dp" />
 
         <ImageButton
 
@@ -90,6 +142,5 @@
             android:src="@drawable/scan" />
 
     </RelativeLayout>
-
 
 </RelativeLayout>

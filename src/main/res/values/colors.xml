@@ -5,4 +5,5 @@
     <color name="tabsScrollColor">#004D40</color>
     <color name="ColorLockRed">#FF0000</color>
     <color name="ColorLockGreen">#00AA55</color>
+    <color name="ColorLockBlack">#555555</color>
 </resources>
