@@ -1,28 +1,17 @@
 package com.contactshare.utilities;
 
 import android.app.Activity;
-import android.content.ContentProviderOperation;
-import android.content.ContentProviderResult;
 import android.content.Context;
-import android.content.OperationApplicationException;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.os.RemoteException;
 import android.provider.ContactsContract;
-import android.provider.ContactsContract.CommonDataKinds.Phone;
-import android.provider.ContactsContract.CommonDataKinds.StructuredName;
-import android.provider.ContactsContract.Contacts.Data;
-import android.provider.ContactsContract.RawContacts;
-import android.net.Uri;
-import android.os.Bundle;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -48,7 +37,6 @@ public class Utilities {
     }
 
     public static boolean isInitialSetupDone(Context ctx){
-        boolean isInitialSetup = false;
         sharedPref = ctx.getSharedPreferences(Constants.SHARED_PREF_NAME, 0);
         return !"Null".equals(sharedPref.getString(Constants.KEY_NAME, Constants.NULL_STRING));
     }
@@ -70,7 +58,23 @@ public class Utilities {
             sb.append(key);
             sb.append(":");
             sb.append(fields.get(key));
+            sb.append(";");
         }
         return sb.toString();
+    }
+    public static void addToContact(Activity act, String contents){
+        String values[] = new String[3];
+        String split1[] = contents.split(";");
+        for (int i=0; i<split1.length; i++) {
+            values[i] = split1[i].split(":")[1];
+        }
+        
+        
+        Intent intent1 = new Intent(Intent.ACTION_INSERT,
+                ContactsContract.Contacts.CONTENT_URI);
+        intent1.putExtra(ContactsContract.Intents.Insert.NAME, values[0]);
+        intent1.putExtra(ContactsContract.Intents.Insert.PHONE, values[1]);
+        intent1.putExtra(ContactsContract.Intents.Insert.EMAIL, values[2]);
+        act.startActivity(intent1);
     }
 }

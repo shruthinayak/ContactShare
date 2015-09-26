@@ -18,6 +18,8 @@ import com.contactshare.R;
 import com.contactshare.utilities.Constants;
 import com.contactshare.utilities.Utilities;
 
+import java.util.HashMap;
+
 
 public class MainActivity extends ActionBarActivity implements View.OnClickListener {
 
@@ -32,6 +34,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     private ImageButton btnConScan;
     private View lytContactDetail;
     private View lytQrCode;
+    private HashMap fields = new HashMap<>();
 
 
     @Override
@@ -49,7 +52,11 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             String sharedName = Utilities.getValueForKeyFromPref(ctx, Constants.KEY_NAME);
             String sharedNumber = Utilities.getValueForKeyFromPref(ctx, Constants.KEY_NUMBER);
             String sharedEmail = Utilities.getValueForKeyFromPref(ctx, Constants.KEY_EMAIL);
-            String contact = "Name:" + sharedName + "No:" + sharedNumber + "Email:" + sharedEmail;
+            //String contact = "Name:" + sharedName + "No:" + sharedNumber + "Email:" + sharedEmail;
+            fields.put(Constants.KEY_NAME,sharedName);
+            fields.put(Constants.KEY_NUMBER,sharedNumber);
+            fields.put(Constants.KEY_EMAIL, sharedEmail);
+            String contact = Utilities.prepareStringForQRCode(fields);
             imgQrCode.setImageBitmap(Utilities.encodeToQrCode(contact, 500, 500));
         } else{
             lytContactDetail.setVisibility(View.VISIBLE);
@@ -81,25 +88,24 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         edtConNumber.setTypeface(typeface);
         edtConEmail.setTypeface(typeface);
 
+
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        //IntentResult res = IntentIntegrator.parseActivityResult(requestCode,resultCode,data);
         if (requestCode == 0) {
-            //if (resultCode == RESULT_OK) {
-            //get the extras that are returned from the intent
             String contents = intent.getStringExtra("SCAN_RESULT");
-            String format = intent.getStringExtra("SCAN_RESULT_FORMAT");
-            Toast toast = Toast.makeText(this, "Content:" + contents + " Format:" + format, Toast.LENGTH_LONG);
-            toast.show();
-            Intent intent1 = new Intent(Intent.ACTION_INSERT,
+            //String format = intent.getStringExtra("SCAN_RESULT_FORMAT");
+            //Toast toast = Toast.makeText(this, "Content:" + contents + " Format:" + format, Toast.LENGTH_LONG);
+            //toast.show();
+            Utilities.addToContact(MainActivity.this,contents);
+
+            /*Intent intent1 = new Intent(Intent.ACTION_INSERT,
                     ContactsContract.Contacts.CONTENT_URI);
             intent1.putExtra(ContactsContract.Intents.Insert.NAME, "NAMEEEE");
             intent1.putExtra(ContactsContract.Intents.Insert.PHONE, "7387387348");
-            startActivity(intent1);
+            startActivity(intent1);*/
 
         }
-        //}
     }
 
     @Override
