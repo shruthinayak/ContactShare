@@ -53,18 +53,6 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             String contact = "Name:" + sharedName + "No:" + sharedNumber + "Email:" + sharedEmail;
             imgQrCode.setImageBitmap(Utilities.encodeToQrCode(contact, 500, 500));
         }
-
-        //Saving contact info
-        /*Intent intent = new Intent(ACTION_SCAN);
-
-        intent.putExtra("SCAN_MODE", "QR_CODE_MODE");
-
-        startActivityForResult(intent, 0);*/
-
-/*        IntentIntegrator integrator = new IntentIntegrator(getActivity());
-        integrator.initiateScan();*/
-
-
     }
 
     private void setOnClickListeners() {
