@@ -3,6 +3,7 @@ package com.contactshare.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.Button;
@@ -87,6 +88,12 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             String format = intent.getStringExtra("SCAN_RESULT_FORMAT");
             Toast toast = Toast.makeText(this, "Content:" + contents + " Format:" + format, Toast.LENGTH_LONG);
             toast.show();
+            Intent intent1 = new Intent(Intent.ACTION_INSERT,
+                    ContactsContract.Contacts.CONTENT_URI);
+            intent1.putExtra(ContactsContract.Intents.Insert.NAME, "NAMEEEE");
+            intent1.putExtra(ContactsContract.Intents.Insert.PHONE, "7387387348");
+            startActivity(intent1);
+
         }
         //}
     }
@@ -116,7 +123,6 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 Intent intent = new Intent(ACTION_SCAN);
                 intent.putExtra("SCAN_MODE", "QR_CODE_MODE");
                 startActivityForResult(intent, 0);
-                //addContact(MainActivity.this);
 
         }
     }
