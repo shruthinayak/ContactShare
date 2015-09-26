@@ -1,6 +1,7 @@
 package com.contactshare.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.contactshare.R;
 import com.contactshare.utilities.Constants;
@@ -68,6 +70,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     private void setOnClickListeners() {
         btnConSave.setOnClickListener(this);
         btnConEdit.setOnClickListener(this);
+        btnConScan.setOnClickListener(this);
     }
 
     private void initUI() {
@@ -85,6 +88,19 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         imgQrCode = (ImageView) findViewById(R.id.img_qr_code);
         lytQrCode.setVisibility(View.GONE);
 
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        //IntentResult res = IntentIntegrator.parseActivityResult(requestCode,resultCode,data);
+        if (requestCode == 0) {
+            //if (resultCode == RESULT_OK) {
+            //get the extras that are returned from the intent
+            String contents = intent.getStringExtra("SCAN_RESULT");
+            String format = intent.getStringExtra("SCAN_RESULT_FORMAT");
+            Toast toast = Toast.makeText(this, "Content:" + contents + " Format:" + format, Toast.LENGTH_LONG);
+            toast.show();
+        }
+        //}
     }
 
     @Override
@@ -108,6 +124,12 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 edtConNumber.setText(Utilities.getValueForKeyFromPref(ctx, Constants.KEY_NUMBER));
                 edtConEmail.setText(Utilities.getValueForKeyFromPref(ctx, Constants.KEY_EMAIL));
                 break;
+            case R.id.btn_con_scan:
+                Intent intent = new Intent(ACTION_SCAN);
+                intent.putExtra("SCAN_MODE", "QR_CODE_MODE");
+                startActivityForResult(intent, 0);
+                //addContact(MainActivity.this);
+
         }
     }
 }
