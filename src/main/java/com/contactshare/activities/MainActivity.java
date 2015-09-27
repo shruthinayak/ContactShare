@@ -21,8 +21,6 @@ import com.contactshare.models.VCard;
 import com.contactshare.utilities.Constants;
 import com.contactshare.utilities.Utilities;
 
-import java.util.HashMap;
-
 public class MainActivity extends ActionBarActivity implements View.OnClickListener {
 
     static final String ACTION_SCAN = "com.google.zxing.client.android.SCAN";
