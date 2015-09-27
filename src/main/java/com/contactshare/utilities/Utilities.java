@@ -1,40 +1,30 @@
 package com.contactshare.utilities;
 
-import android.app.Activity;
-import android.content.ContentProviderOperation;
-import android.content.ContentProviderResult;
 import android.content.Context;
-import android.content.OperationApplicationException;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.os.RemoteException;
-import android.provider.ContactsContract;
-import android.provider.ContactsContract.CommonDataKinds.Phone;
-import android.provider.ContactsContract.CommonDataKinds.StructuredName;
-import android.provider.ContactsContract.Contacts.Data;
-import android.provider.ContactsContract.RawContacts;
-import android.net.Uri;
-import android.os.Bundle;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
  * Created by SG0222540 on 9/24/2015.
  */
 public class Utilities {
+
     private static SharedPreferences sharedPref;
-    public static Bitmap encodeToQrCode(String text, int width, int height) {
+    public static Bitmap encodeToQrCode(String text) {
+        int width = Constants.QR_CODE_SIZE;
+        int height = Constants.QR_CODE_SIZE;
         QRCodeWriter writer = new QRCodeWriter();
         BitMatrix matrix = null;
         try {
-            matrix = writer.encode(text, BarcodeFormat.QR_CODE, 500, 500);
+            matrix = writer.encode(text, BarcodeFormat.QR_CODE, width, height);
         } catch (WriterException ex) {
             ex.printStackTrace();
         }
@@ -50,7 +40,7 @@ public class Utilities {
     public static boolean isInitialSetupDone(Context ctx){
         boolean isInitialSetup = false;
         sharedPref = ctx.getSharedPreferences(Constants.SHARED_PREF_NAME, 0);
-        return !"Null".equals(sharedPref.getString(Constants.KEY_NAME, Constants.NULL_STRING));
+        return !Constants.NULL_STRING.equals(sharedPref.getString(Constants.KEY_NAME, Constants.NULL_STRING));
     }
 
     public static String getValueForKeyFromPref(Context ctx, String key) {

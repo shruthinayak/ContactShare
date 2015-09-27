@@ -1,4 +1,4 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,97 +8,113 @@
 
     <RelativeLayout
         android:id="@+id/lyt_contact_detail"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_marginTop="30dp"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="visible">
 
-        <ImageView
-            android:id="@+id/imgProfile"
+        <RelativeLayout
+            android:id="@+id/imgHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:src="@drawable/profile" />
+            android:layout_centerHorizontal="true"
+            android:gravity="center_horizontal">
 
-        <ImageView
-            android:id="@+id/imgName"
-            android:layout_width="wrap_content"
+            <ImageButton
+                android:background="@android:color/white"
+                android:id="@+id/btn_profile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/profile" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/lytOther"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/imgProfile"
-            android:layout_marginTop="20dp"
-            android:src="@drawable/name" />
+            android:layout_below="@+id/imgHeader"
+            android:layout_marginLeft="70dp">
 
-        <EditText
-            android:id="@+id/edt_con_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/imgProfile"
-            android:layout_marginTop="20dp"
-            android:layout_toRightOf="@+id/imgName"
-            android:hint="Name"
+            <ImageView
+                android:id="@+id/imgName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:src="@drawable/name" />
 
-            android:maxLength="140"
-            android:textColor="@color/ColorLockBlack"
-            android:textSize="25dp" />
+            <EditText
+                android:id="@+id/edt_con_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/imgName"
+                android:layout_marginTop="15dp"
+                android:layout_toRightOf="@+id/imgName"
+                android:hint="Enter your name here"
+                android:maxLength="140"
+                android:paddingBottom="0dp"
+                android:textColor="@color/ColorLockBlack"
+                android:textSize="25dp" />
 
-        <ImageView
-            android:id="@+id/imgPhone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/imgName"
-            android:layout_marginTop="20dp"
+            <ImageView
+                android:id="@+id/imgPhone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/imgName"
+                android:layout_marginTop="30dp"
+                android:src="@drawable/phone" />
 
-            android:src="@drawable/phone" />
+            <EditText
+                android:id="@+id/edt_con_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/imgPhone"
+                android:layout_toRightOf="@+id/imgPhone"
+                android:hint="Your phone number?"
+                android:inputType="phone"
+                android:maxLength="140"
+                android:paddingBottom="0dp"
+                android:textColor="@color/ColorLockBlack"
+                android:textSize="25dp" />
 
-        <EditText
-            android:id="@+id/edt_con_number"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/imgPhone"
-            android:layout_below="@+id/edt_con_name"
-            android:layout_marginTop="10dp"
-            android:layout_toRightOf="@+id/imgPhone"
-            android:hint="Number"
-            android:inputType="phone"
-            android:maxLength="140"
-            android:textColor="@color/ColorLockBlack"
-            android:textSize="25dp" />
+            <ImageView
+                android:id="@+id/imgEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/imgPhone"
+                android:layout_marginTop="30dp"
+                android:src="@drawable/mail"
+                android:visibility="visible" />
 
-        <ImageView
-            android:id="@+id/imgEmail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/imgPhone"
-            android:layout_marginTop="20dp"
+            <EditText
+                android:id="@+id/edt_con_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/imgEmail"
+                android:layout_toRightOf="@id/imgEmail"
+                android:hint="Email address"
+                android:inputType="textEmailAddress"
+                android:maxLength="140"
+                android:paddingBottom="0dp"
+                android:textColor="@color/ColorLockBlack"
+                android:textSize="25dp"
+                android:visibility="visible" />
 
-            android:src="@drawable/mail" />
-
-        <EditText
-            android:id="@+id/edt_con_email"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/imgEmail"
-            android:layout_below="@+id/edt_con_number"
-            android:layout_marginTop="20dp"
-            android:layout_toRightOf="@id/imgEmail"
-            android:hint="Email"
-            android:inputType="textEmailAddress"
-            android:maxLength="140"
-            android:textColor="@color/ColorLockBlack"
-            android:textSize="25dp" />
+        </RelativeLayout>
 
         <Button
             android:id="@+id/btn_con_save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/imgEmail"
+            android:layout_below="@id/lytOther"
+            android:layout_centerHorizontal="true"
             android:layout_marginLeft="30dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="30dp"
+            android:padding="10dp"
+            android:textSize="25dp"
             android:background="@color/ColorLockGreen"
-            android:text="Save" />
-
+            android:text="Get QR Code" />
     </RelativeLayout>
 
 
@@ -108,7 +124,7 @@
         android:layout_height="fill_parent"
         android:layout_margin="10dp"
         android:gravity="center_horizontal"
-        android:visibility="visible">
+        android:visibility="gone">
 
 
         <ImageView
@@ -143,4 +159,4 @@
 
     </RelativeLayout>
 
-</RelativeLayout>
+</LinearLayout>
