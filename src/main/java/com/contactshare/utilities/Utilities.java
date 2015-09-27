@@ -15,9 +15,6 @@ import com.google.zxing.qrcode.QRCodeWriter;
 
 import java.util.HashMap;
 
-/**
- * Created by SG0222540 on 9/24/2015.
- */
 public class Utilities {
 
     private static SharedPreferences sharedPref;
@@ -73,8 +70,6 @@ public class Utilities {
         for (int i=0; i<split1.length; i++) {
             values[i] = split1[i].split(":")[1];
         }
-        
-        
         Intent intent1 = new Intent(Intent.ACTION_INSERT,
                 ContactsContract.Contacts.CONTENT_URI);
         intent1.putExtra(ContactsContract.Intents.Insert.NAME, values[0]);

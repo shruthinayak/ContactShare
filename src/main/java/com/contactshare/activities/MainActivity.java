@@ -1,18 +1,20 @@
 package com.contactshare.activities;
 
+import android.app.ActionBar;
 import android.content.Context;
-import android.graphics.Typeface;
 import android.content.Intent;
+import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.contactshare.R;
 import com.contactshare.utilities.Constants;
@@ -57,7 +59,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             fields.put(Constants.KEY_NUMBER,sharedNumber);
             fields.put(Constants.KEY_EMAIL, sharedEmail);
             String contact = Utilities.prepareStringForQRCode(fields);
-            imgQrCode.setImageBitmap(Utilities.encodeToQrCode(contact, 500, 500));
+            imgQrCode.setImageBitmap(Utilities.encodeToQrCode(contact));
         } else{
             lytContactDetail.setVisibility(View.VISIBLE);
             lytQrCode.setVisibility(View.GONE);
@@ -71,6 +73,21 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     }
 
     private void initUI() {
+        Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/Sabrinahandfont.ttf");
+        Window window = MainActivity.this.getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(MainActivity.this.getResources().getColor(R.color.ColorLockGreen));
+
+        ActionBar actionBar = getActionBar();
+        actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.ColorLockGreen)));
+
+        int titleId = getResources().getIdentifier("action_bar_title", "id",
+                "android");
+        TextView yourTextView = (TextView) findViewById(titleId);
+        yourTextView.setTextSize(30);
+        yourTextView.setTypeface(typeface);
+        yourTextView.setText("Contact Share");
+
         lytContactDetail = findViewById(R.id.lyt_contact_detail);
         lytQrCode = findViewById(R.id.lyt_qr_code);
         edtConName = (EditText) findViewById(R.id.edt_con_name);
@@ -82,7 +99,6 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         //QR code on display mode
         imgQrCode = (ImageView) findViewById(R.id.img_qr_code);
         lytQrCode.setVisibility(View.GONE);
-        Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/Sabrinahandfont.ttf");
         btnConSave.setTypeface(typeface);
         edtConName.setTypeface(typeface);
         edtConNumber.setTypeface(typeface);
@@ -94,17 +110,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if (requestCode == 0) {
             String contents = intent.getStringExtra("SCAN_RESULT");
-            //String format = intent.getStringExtra("SCAN_RESULT_FORMAT");
-            //Toast toast = Toast.makeText(this, "Content:" + contents + " Format:" + format, Toast.LENGTH_LONG);
-            //toast.show();
             Utilities.addToContact(MainActivity.this,contents);
-
-            /*Intent intent1 = new Intent(Intent.ACTION_INSERT,
-                    ContactsContract.Contacts.CONTENT_URI);
-            intent1.putExtra(ContactsContract.Intents.Insert.NAME, "NAMEEEE");
-            intent1.putExtra(ContactsContract.Intents.Insert.PHONE, "7387387348");
-            startActivity(intent1);*/
-
         }
     }
 
@@ -119,7 +125,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 String contact = "Name:" + name + "No:" + number + "Email:" + email;
                 lytContactDetail.setVisibility(View.GONE);
                 lytQrCode.setVisibility(View.VISIBLE);
-                imgQrCode.setImageBitmap(Utilities.encodeToQrCode(contact, 500, 500));
+                imgQrCode.setImageBitmap(Utilities.encodeToQrCode(contact));
                 Utilities.putValueIntoSharedPref(ctx, Constants.KEY_NAME, name);
                 Utilities.putValueIntoSharedPref(ctx, Constants.KEY_EMAIL, email);
                 Utilities.putValueIntoSharedPref(ctx, Constants.KEY_NUMBER, number);
