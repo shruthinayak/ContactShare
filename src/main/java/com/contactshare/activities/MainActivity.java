@@ -17,11 +17,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.contactshare.R;
+import com.contactshare.models.VCard;
 import com.contactshare.utilities.Constants;
 import com.contactshare.utilities.Utilities;
 
 import java.util.HashMap;
-
 
 public class MainActivity extends ActionBarActivity implements View.OnClickListener {
 
@@ -36,7 +36,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     private ImageButton btnConScan;
     private View lytContactDetail;
     private View lytQrCode;
-    private HashMap fields = new HashMap<>();
+    private VCard card;
 
 
     @Override
@@ -54,11 +54,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             String sharedName = Utilities.getValueForKeyFromPref(ctx, Constants.KEY_NAME);
             String sharedNumber = Utilities.getValueForKeyFromPref(ctx, Constants.KEY_NUMBER);
             String sharedEmail = Utilities.getValueForKeyFromPref(ctx, Constants.KEY_EMAIL);
-            //String contact = "Name:" + sharedName + "No:" + sharedNumber + "Email:" + sharedEmail;
-            fields.put(Constants.KEY_NAME,sharedName);
-            fields.put(Constants.KEY_NUMBER,sharedNumber);
-            fields.put(Constants.KEY_EMAIL, sharedEmail);
-            String contact = Utilities.prepareStringForQRCode(fields);
+            card = new VCard(sharedName,sharedNumber,sharedEmail);
+            String contact = card.toString();
             imgQrCode.setImageBitmap(Utilities.encodeToQrCode(contact));
         } else{
             lytContactDetail.setVisibility(View.VISIBLE);
@@ -122,13 +119,14 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 String name = edtConName.getText().toString();
                 String number = edtConNumber.getText().toString();
                 String email = edtConEmail.getText().toString();
-                String contact = "Name:" + name + "No:" + number + "Email:" + email;
+                card = new VCard(name,number,email);
+                String contact = card.toString();
                 lytContactDetail.setVisibility(View.GONE);
                 lytQrCode.setVisibility(View.VISIBLE);
                 imgQrCode.setImageBitmap(Utilities.encodeToQrCode(contact));
                 Utilities.putValueIntoSharedPref(ctx, Constants.KEY_NAME, name);
-                Utilities.putValueIntoSharedPref(ctx, Constants.KEY_EMAIL, email);
                 Utilities.putValueIntoSharedPref(ctx, Constants.KEY_NUMBER, number);
+                Utilities.putValueIntoSharedPref(ctx, Constants.KEY_EMAIL, email);
                 break;
             case R.id.btn_con_edit:
                 lytQrCode.setVisibility(View.GONE);
