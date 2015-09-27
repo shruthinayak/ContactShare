@@ -15,9 +15,6 @@ import com.google.zxing.qrcode.QRCodeWriter;
 
 import java.util.HashMap;
 
-/**
- * Created by SG0222540 on 9/24/2015.
- */
 public class Utilities {
 
     private static SharedPreferences sharedPref;

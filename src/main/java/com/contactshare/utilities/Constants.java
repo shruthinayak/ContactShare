@@ -1,8 +1,5 @@
 package com.contactshare.utilities;
 
-/**
- * Created by SG0222540 on 9/24/2015.
- */
 public interface Constants {
 
     public final String KEY_NAME = "name";

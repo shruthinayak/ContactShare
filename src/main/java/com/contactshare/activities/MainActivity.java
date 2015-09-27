@@ -4,21 +4,16 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.contactshare.R;
+import com.contactshare.models.VCard;
 import com.contactshare.utilities.Constants;
 import com.contactshare.utilities.Utilities;
-
-import java.util.HashMap;
 
 
 public class MainActivity extends ActionBarActivity implements View.OnClickListener {
@@ -34,7 +29,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     private ImageButton btnConScan;
     private View lytContactDetail;
     private View lytQrCode;
-    private HashMap fields = new HashMap<>();
+    private VCard card;
 
 
     @Override
@@ -52,12 +47,9 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             String sharedName = Utilities.getValueForKeyFromPref(ctx, Constants.KEY_NAME);
             String sharedNumber = Utilities.getValueForKeyFromPref(ctx, Constants.KEY_NUMBER);
             String sharedEmail = Utilities.getValueForKeyFromPref(ctx, Constants.KEY_EMAIL);
-            //String contact = "Name:" + sharedName + "No:" + sharedNumber + "Email:" + sharedEmail;
-            fields.put(Constants.KEY_NAME,sharedName);
-            fields.put(Constants.KEY_NUMBER,sharedNumber);
-            fields.put(Constants.KEY_EMAIL, sharedEmail);
-            String contact = Utilities.prepareStringForQRCode(fields);
-            imgQrCode.setImageBitmap(Utilities.encodeToQrCode(contact, 500, 500));
+            card = new VCard(sharedName,sharedNumber,sharedEmail);
+            String contact = card.toString();
+            imgQrCode.setImageBitmap(Utilities.encodeToQrCode(contact));
         } else{
             lytContactDetail.setVisibility(View.VISIBLE);
             lytQrCode.setVisibility(View.GONE);
@@ -81,7 +73,6 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         btnConScan = (ImageButton) findViewById(R.id.btn_con_scan);
         //QR code on display mode
         imgQrCode = (ImageView) findViewById(R.id.img_qr_code);
-        lytQrCode.setVisibility(View.GONE);
         Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/Sabrinahandfont.ttf");
         btnConSave.setTypeface(typeface);
         edtConName.setTypeface(typeface);
@@ -94,17 +85,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if (requestCode == 0) {
             String contents = intent.getStringExtra("SCAN_RESULT");
-            //String format = intent.getStringExtra("SCAN_RESULT_FORMAT");
-            //Toast toast = Toast.makeText(this, "Content:" + contents + " Format:" + format, Toast.LENGTH_LONG);
-            //toast.show();
             Utilities.addToContact(MainActivity.this,contents);
-
-            /*Intent intent1 = new Intent(Intent.ACTION_INSERT,
-                    ContactsContract.Contacts.CONTENT_URI);
-            intent1.putExtra(ContactsContract.Intents.Insert.NAME, "NAMEEEE");
-            intent1.putExtra(ContactsContract.Intents.Insert.PHONE, "7387387348");
-            startActivity(intent1);*/
-
         }
     }
 
@@ -116,13 +97,14 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 String name = edtConName.getText().toString();
                 String number = edtConNumber.getText().toString();
                 String email = edtConEmail.getText().toString();
-                String contact = "Name:" + name + "No:" + number + "Email:" + email;
+                card = new VCard(name,number,email);
+                String contact = card.toString();
                 lytContactDetail.setVisibility(View.GONE);
                 lytQrCode.setVisibility(View.VISIBLE);
-                imgQrCode.setImageBitmap(Utilities.encodeToQrCode(contact, 500, 500));
+                imgQrCode.setImageBitmap(Utilities.encodeToQrCode(contact));
                 Utilities.putValueIntoSharedPref(ctx, Constants.KEY_NAME, name);
-                Utilities.putValueIntoSharedPref(ctx, Constants.KEY_EMAIL, email);
                 Utilities.putValueIntoSharedPref(ctx, Constants.KEY_NUMBER, number);
+                Utilities.putValueIntoSharedPref(ctx, Constants.KEY_EMAIL, email);
                 break;
             case R.id.btn_con_edit:
                 lytQrCode.setVisibility(View.GONE);
