@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.contactshare" >
+    package="com.contactshare">
 
     <application
         android:allowBackup="true"
-        android:statusBarColor="@color/ColorLockGreen"
         android:icon="@drawable/launcherbig"
         android:label="@string/app_name"
-        android:theme="@style/Theme.AppCompat" >
+        android:statusBarColor="@color/ColorLockGreen"
+        android:theme="@style/Theme.AppCompat"
+        android:windowTranslucentStatus="true">
         <activity
             android:name=".activities.SplashScreenActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -18,7 +19,7 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".activities.ContactWidget" >
+        <receiver android:name=".activities.ContactWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -30,13 +31,13 @@
 
         <activity
             android:name=".activities.MainActivity"
-            android:label="@string/title_activity_splash_screen" >
-        </activity>
+            android:label="@string/title_activity_splash_screen"></activity>
     </application>
 
     <uses-sdk
         android:minSdkVersion="18"
         android:targetSdkVersion="21" />
+
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.read_phone_state" />
     <uses-permission android:name="android.permission.WRITE_CONTACTS" />

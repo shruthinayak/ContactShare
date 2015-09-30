@@ -54,7 +54,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             String sharedEmail = Utilities.getValueForKeyFromPref(ctx, Constants.KEY_EMAIL);
             card = new VCard(sharedName,sharedNumber,sharedEmail);
             String contact = card.toString();
-            imgQrCode.setImageBitmap(Utilities.encodeToQrCode(contact));
+            imgQrCode.setImageBitmap(Utilities.encodeToQrCode(MainActivity.this, contact));
         } else{
             lytContactDetail.setVisibility(View.VISIBLE);
             lytQrCode.setVisibility(View.GONE);
@@ -72,7 +72,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         Typeface mainTypeFace = Typeface.createFromAsset(getAssets(), "fonts/Sabrinahandfont.ttf");
         Window window = MainActivity.this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(MainActivity.this.getResources().getColor(R.color.ColorLockGreen));
+        window.setStatusBarColor(MainActivity.this.getResources().getColor(R.color.ColorLockGreenTranslucent));
 
         ActionBar actionBar = getActionBar();
         actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.ColorLockGreen)));
@@ -122,7 +122,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 String contact = card.toString();
                 lytContactDetail.setVisibility(View.GONE);
                 lytQrCode.setVisibility(View.VISIBLE);
-                imgQrCode.setImageBitmap(Utilities.encodeToQrCode(contact));
+                imgQrCode.setImageBitmap(Utilities.encodeToQrCode(MainActivity.this, contact));
                 Utilities.putValueIntoSharedPref(ctx, Constants.KEY_NAME, name);
                 Utilities.putValueIntoSharedPref(ctx, Constants.KEY_NUMBER, number);
                 Utilities.putValueIntoSharedPref(ctx, Constants.KEY_EMAIL, email);

@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.provider.ContactsContract;
 
+import com.contactshare.R;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
@@ -18,7 +19,7 @@ import java.util.HashMap;
 public class Utilities {
 
     private static SharedPreferences sharedPref;
-    public static Bitmap encodeToQrCode(String text) {
+    public static Bitmap encodeToQrCode(Context ctx, String text) {
         int width = Constants.QR_CODE_SIZE;
         int height = Constants.QR_CODE_SIZE;
         QRCodeWriter writer = new QRCodeWriter();
@@ -32,7 +33,7 @@ public class Utilities {
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 //Define colors for QR Code
-                bmp.setPixel(x, y, matrix.get(x, y) ? Color.BLACK : Color.parseColor("#F8F8FF"));
+                bmp.setPixel(x, y, matrix.get(x, y) ? Color.BLACK : ctx.getResources().getColor(R.color.ColorLaceWhite));
             }
         }
         return bmp;
