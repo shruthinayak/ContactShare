@@ -28,7 +28,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     private EditText edtConName;
     private EditText edtConNumber;
     private EditText edtConEmail;
-    private Button btnConSave;
+    private Button btnConGetQR;
     private ImageView imgQrCode;
     private ImageButton btnConEdit;
     private ImageButton btnConScan;
@@ -62,13 +62,14 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     }
 
     private void setOnClickListeners() {
-        btnConSave.setOnClickListener(this);
+        btnConGetQR.setOnClickListener(this);
         btnConEdit.setOnClickListener(this);
         btnConScan.setOnClickListener(this);
     }
 
     private void initUI() {
-        Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/Sabrinahandfont.ttf");
+        Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/GandhiSans-Regular.otf");
+        Typeface mainTypeFace = Typeface.createFromAsset(getAssets(), "fonts/Sabrinahandfont.ttf");
         Window window = MainActivity.this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(MainActivity.this.getResources().getColor(R.color.ColorLockGreen));
@@ -80,7 +81,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 "android");
         TextView yourTextView = (TextView) findViewById(titleId);
         yourTextView.setTextSize(30);
-        yourTextView.setTypeface(typeface);
+        yourTextView.setTypeface(mainTypeFace);
         yourTextView.setText("Contact Share");
 
         lytContactDetail = findViewById(R.id.lyt_contact_detail);
@@ -88,13 +89,13 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         edtConName = (EditText) findViewById(R.id.edt_con_name);
         edtConNumber = (EditText) findViewById(R.id.edt_con_number);
         edtConEmail = (EditText) findViewById(R.id.edt_con_email);
-        btnConSave = (Button) findViewById(R.id.btn_con_save);
+        btnConGetQR = (Button) findViewById(R.id.btn_con_get_qr);
         btnConEdit = (ImageButton) findViewById(R.id.btn_con_edit);
         btnConScan = (ImageButton) findViewById(R.id.btn_con_scan);
         //QR code on display mode
         imgQrCode = (ImageView) findViewById(R.id.img_qr_code);
         lytQrCode.setVisibility(View.GONE);
-        btnConSave.setTypeface(typeface);
+        btnConGetQR.setTypeface(typeface);
         edtConName.setTypeface(typeface);
         edtConNumber.setTypeface(typeface);
         edtConEmail.setTypeface(typeface);
@@ -113,7 +114,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     public void onClick(View v) {
         int id = v.getId();
         switch (id) {
-            case R.id.btn_con_save:
+            case R.id.btn_con_get_qr:
                 String name = edtConName.getText().toString();
                 String number = edtConNumber.getText().toString();
                 String email = edtConEmail.getText().toString();

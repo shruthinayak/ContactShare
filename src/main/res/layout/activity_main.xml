@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
+    android:background="@color/ColorGhostWhite"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="30dp"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <RelativeLayout
             android:id="@+id/imgHeader"
@@ -22,7 +22,7 @@
             android:gravity="center_horizontal">
 
             <ImageButton
-                android:background="@android:color/white"
+                android:background="@color/ColorGhostWhite"
                 android:id="@+id/btn_profile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -104,14 +104,15 @@
         </RelativeLayout>
 
         <Button
-            android:id="@+id/btn_con_save"
+            android:id="@+id/btn_con_get_qr"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/lytOther"
             android:layout_centerHorizontal="true"
             android:layout_marginLeft="30dp"
             android:layout_marginTop="30dp"
-            android:padding="10dp"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
             android:textSize="25dp"
             android:background="@color/ColorLockGreen"
             android:text="Get QR Code" />
@@ -122,9 +123,8 @@
         android:id="@+id/lyt_qr_code"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_margin="10dp"
         android:gravity="center_horizontal"
-        android:visibility="gone">
+        android:visibility="visible">
 
 
         <ImageView
@@ -133,8 +133,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginLeft="100dp"
-            android:layout_marginTop="50dp" />
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="50dp"
+            android:src="@drawable/profile"
+            android:background="@color/ColorGhostWhite"/>
 
         <ImageButton
 
@@ -143,7 +145,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:background="@android:color/white"
+            android:background="@color/ColorGhostWhite"
             android:padding="10dp"
             android:src="@drawable/edit" />
 
@@ -153,7 +155,7 @@
             android:layout_height="wrap_content"
             android:layout_above="@+id/btn_con_edit"
             android:layout_alignParentRight="true"
-            android:background="@android:color/white"
+            android:background="@color/ColorGhostWhite"
             android:padding="10dp"
             android:src="@drawable/scan" />
 

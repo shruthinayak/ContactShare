@@ -6,4 +6,6 @@
     <color name="ColorLockRed">#FF0000</color>
     <color name="ColorLockGreen">#00AA55</color>
     <color name="ColorLockBlack">#555555</color>
+    <color name="ColorGhostWhite">#F8F8FF</color>
+<!--    F5F5F5-->
 </resources>

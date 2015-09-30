@@ -31,7 +31,8 @@ public class Utilities {
         Bitmap bmp = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                bmp.setPixel(x, y, matrix.get(x, y) ? Color.BLACK : Color.WHITE);
+                //Define colors for QR Code
+                bmp.setPixel(x, y, matrix.get(x, y) ? Color.BLACK : Color.parseColor("#F8F8FF"));
             }
         }
         return bmp;
