@@ -36,7 +36,6 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     private View lytQrCode;
     private VCard card;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,6 +101,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
 
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if (requestCode == 0) {
@@ -124,7 +124,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 String number = edtConNumber.getText().toString();
                 String email = edtConEmail.getText().toString();
                 card = new VCard(name, number, email);
-                String contact = card.toString();
+                final String contact = card.toString();
                 lytContactDetail.setVisibility(View.GONE);
                 lytQrCode.setVisibility(View.VISIBLE);
                 imgQrCode.setImageBitmap(Utilities.encodeToQrCode(MainActivity.this, contact));

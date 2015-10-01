@@ -8,4 +8,7 @@
     <string name="title_activity_splash_screen">Contact Share</string>
     <string name="title">Contact Share</string>
     <string name="title_activity_help_activity_one">HelpActivityOne</string>
+    <string name="helpText">Help the app to generate QR code by entering your contact details. Sit back and relax. The next time you are asked for your contact details, stick this app in front of their scanner of the app.</string>
+    <string name="helpscan">Want to scan someone else\'s QR code and feed into address book? This button is your friend</string>
+    <string name="helpedit">Made a mistake while feeding your details? Use this button to make changes!</string>
 </resources>
