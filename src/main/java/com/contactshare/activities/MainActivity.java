@@ -52,10 +52,10 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             String sharedName = Utilities.getValueForKeyFromPref(ctx, Constants.KEY_NAME);
             String sharedNumber = Utilities.getValueForKeyFromPref(ctx, Constants.KEY_NUMBER);
             String sharedEmail = Utilities.getValueForKeyFromPref(ctx, Constants.KEY_EMAIL);
-            card = new VCard(sharedName,sharedNumber,sharedEmail);
+            card = new VCard(sharedName, sharedNumber, sharedEmail);
             String contact = card.toString();
             imgQrCode.setImageBitmap(Utilities.encodeToQrCode(MainActivity.this, contact));
-        } else{
+        } else {
             lytContactDetail.setVisibility(View.VISIBLE);
             lytQrCode.setVisibility(View.GONE);
         }
@@ -106,7 +106,12 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if (requestCode == 0) {
             String contents = intent.getStringExtra("SCAN_RESULT");
-            Utilities.addToContact(MainActivity.this,contents);
+            String fields[] = contents.split(";");
+            String name = fields[0].split(":")[1];
+            String number = fields[1].split(":")[1];
+            String email = fields[2].split(":")[1];
+            VCard scannedContact = new VCard(name, number, email);
+            Utilities.addToContact(MainActivity.this, scannedContact);
         }
     }
 
@@ -118,7 +123,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 String name = edtConName.getText().toString();
                 String number = edtConNumber.getText().toString();
                 String email = edtConEmail.getText().toString();
-                card = new VCard(name,number,email);
+                card = new VCard(name, number, email);
                 String contact = card.toString();
                 lytContactDetail.setVisibility(View.GONE);
                 lytQrCode.setVisibility(View.VISIBLE);
@@ -138,7 +143,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 Intent intent = new Intent(ACTION_SCAN);
                 intent.putExtra("SCAN_MODE", "QR_CODE_MODE");
                 startActivityForResult(intent, 0);
-
+                break;
         }
     }
 }

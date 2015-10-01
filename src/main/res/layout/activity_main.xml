@@ -94,6 +94,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@id/imgEmail"
                 android:layout_toEndOf="@id/imgEmail"
+                android:inputType="textEmailAddress"
                 android:ellipsize="end"
                 android:ems="9"
                 android:hint="Email Address"
