@@ -4,9 +4,9 @@ import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -75,15 +75,16 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(MainActivity.this.getResources().getColor(R.color.ColorLockGreenTranslucent));
 
-        ActionBar actionBar = getActionBar();
-        actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.ColorLockGreen)));
-
-        int titleId = getResources().getIdentifier("action_bar_title", "id",
-                "android");
-        TextView yourTextView = (TextView) findViewById(titleId);
-        yourTextView.setTextSize(30);
-        yourTextView.setTypeface(mainTypeFace);
-        yourTextView.setText("Contact Share");
+        ActionBar mActionBar = getActionBar();
+        mActionBar.setDisplayShowHomeEnabled(false);
+        mActionBar.setDisplayShowTitleEnabled(false);
+        LayoutInflater mInflater = LayoutInflater.from(this);
+        View mCustomView = mInflater.inflate(R.layout.activity_action_bar, null);
+        mCustomView.findViewById(R.id.imgHelp).setOnClickListener(this);
+        TextView txtAppName = (TextView) mCustomView.findViewById(R.id.txtAppName);
+        txtAppName.setTypeface(mainTypeFace);
+        mActionBar.setCustomView(mCustomView);
+        mActionBar.setDisplayShowCustomEnabled(true);
 
         lytContactDetail = findViewById(R.id.lyt_contact_detail);
         lytQrCode = findViewById(R.id.lyt_qr_code);
@@ -163,6 +164,11 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 intent.putExtra("SCAN_MODE", "QR_CODE_MODE");
                 startActivityForResult(intent, 0);
                 break;
+            case R.id.imgHelp:
+                Intent helpIntent = new Intent(MainActivity.this, HelpActivity.class);
+                startActivity(helpIntent);
+                break;
+
         }
     }
 }

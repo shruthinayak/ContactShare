@@ -11,7 +11,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/launcherbig"
+        android:icon="@drawable/launcher1"
         android:label="@string/app_name"
         android:statusBarColor="@color/ColorLockGreen"
         android:theme="@style/Theme.AppCompat"
@@ -43,10 +43,10 @@
             android:configChanges="orientation"
             android:label="@string/title_activity_splash_screen"
             android:screenOrientation="portrait"></activity>
+
         <activity
-            android:name=".activities.HelpActivityOne"
-            android:label="@string/title_activity_help_activity_one"
-            android:theme="@android:style/Theme.Translucent"></activity>
+            android:name=".activities.HelpActivity"
+            android:label="@string/title_activity_help_activity_one"></activity>
     </application>
 
 </manifest>
