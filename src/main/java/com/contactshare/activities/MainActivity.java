@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.contactshare.R;
 import com.contactshare.models.VCard;
@@ -35,6 +36,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     private View lytContactDetail;
     private View lytQrCode;
     private VCard card;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,17 +103,23 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
 
     }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if (requestCode == 0) {
             String contents = intent.getStringExtra("SCAN_RESULT");
-            String fields[] = contents.split(";");
-            String name = fields[0].split(":")[1];
-            String number = fields[1].split(":")[1];
-            String email = fields[2].split(":")[1];
-            VCard scannedContact = new VCard(name, number, email);
-            Utilities.addToContact(MainActivity.this, scannedContact);
+            if(!((contents.contains(Constants.KEY_NAME))&&(contents.contains(Constants.KEY_NUMBER))
+                &&(contents.contains(Constants.KEY_EMAIL)))){
+                Toast.makeText(getApplicationContext(), "Please scan the right QR Code.",
+                        Toast.LENGTH_LONG).show();
+            }
+            else{
+                String fields[] = contents.split(";");
+                String name = fields[0].split(":")[1];
+                String number = fields[1].split(":")[1];
+                String email = fields[2].split(":")[1];
+                VCard scannedContact = new VCard(name, number, email);
+                Utilities.addToContact(MainActivity.this, scannedContact);
+            }
         }
     }
 
@@ -123,14 +131,25 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 String name = edtConName.getText().toString();
                 String number = edtConNumber.getText().toString();
                 String email = edtConEmail.getText().toString();
-                card = new VCard(name, number, email);
-                final String contact = card.toString();
-                lytContactDetail.setVisibility(View.GONE);
-                lytQrCode.setVisibility(View.VISIBLE);
-                imgQrCode.setImageBitmap(Utilities.encodeToQrCode(MainActivity.this, contact));
-                Utilities.putValueIntoSharedPref(ctx, Constants.KEY_NAME, name);
-                Utilities.putValueIntoSharedPref(ctx, Constants.KEY_NUMBER, number);
-                Utilities.putValueIntoSharedPref(ctx, Constants.KEY_EMAIL, email);
+                if((name.trim().length()<2)){
+                    edtConName.setError("Enter name");
+                }
+                else if(number.trim().length()<5){
+                    edtConNumber.setError("Enter number");
+                }
+                else if((email.trim().length()<2)||(!email.contains("@"))){
+                    edtConEmail.setError("Enter email");
+                }
+                else {
+                    card = new VCard(name, number, email);
+                    String contact = card.toString();
+                    lytContactDetail.setVisibility(View.GONE);
+                    lytQrCode.setVisibility(View.VISIBLE);
+                    imgQrCode.setImageBitmap(Utilities.encodeToQrCode(MainActivity.this, contact));
+                    Utilities.putValueIntoSharedPref(ctx, Constants.KEY_NAME, name);
+                    Utilities.putValueIntoSharedPref(ctx, Constants.KEY_NUMBER, number);
+                    Utilities.putValueIntoSharedPref(ctx, Constants.KEY_EMAIL, email);
+                }
                 break;
             case R.id.btn_con_edit:
                 lytQrCode.setVisibility(View.GONE);
