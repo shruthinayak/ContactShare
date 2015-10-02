@@ -3,7 +3,9 @@ package com.contactshare.activities;
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Typeface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
@@ -55,7 +57,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             String sharedEmail = Utilities.getValueForKeyFromPref(ctx, Constants.KEY_EMAIL);
             card = new VCard(sharedName, sharedNumber, sharedEmail);
             String contact = card.toString();
-            imgQrCode.setImageBitmap(Utilities.encodeToQrCode(MainActivity.this, contact));
+            new LoadQRAsyncTask().execute(contact);
         } else {
             lytContactDetail.setVisibility(View.VISIBLE);
             lytQrCode.setVisibility(View.GONE);
@@ -146,7 +148,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                     String contact = card.toString();
                     lytContactDetail.setVisibility(View.GONE);
                     lytQrCode.setVisibility(View.VISIBLE);
-                    imgQrCode.setImageBitmap(Utilities.encodeToQrCode(MainActivity.this, contact));
+                    new LoadQRAsyncTask().execute(contact);
                     Utilities.putValueIntoSharedPref(ctx, Constants.KEY_NAME, name);
                     Utilities.putValueIntoSharedPref(ctx, Constants.KEY_NUMBER, number);
                     Utilities.putValueIntoSharedPref(ctx, Constants.KEY_EMAIL, email);
@@ -169,6 +171,19 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 startActivity(helpIntent);
                 break;
 
+        }
+    }
+    class LoadQRAsyncTask extends AsyncTask<String, Void, Bitmap>{
+
+        @Override
+        protected Bitmap doInBackground(String[] params) {
+            String contact = params[0];
+            return Utilities.encodeToQrCode(MainActivity.this, contact);
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap image) {
+            imgQrCode.setImageBitmap(image);
         }
     }
 }
