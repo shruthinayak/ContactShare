@@ -31,11 +31,11 @@ public class Utilities {
         } catch (WriterException ex) {
             ex.printStackTrace();
         }
+        int colorId = ctx.getResources().getColor(R.color.ColorLaceWhite);
         Bitmap bmp = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                //Define colors for QR Code
-                bmp.setPixel(x, y, matrix.get(x, y) ? Color.BLACK : ctx.getResources().getColor(R.color.ColorLaceWhite));
+                bmp.setPixel(x, y, matrix.get(x, y) ? Color.BLACK : colorId);
             }
         }
         return bmp;
