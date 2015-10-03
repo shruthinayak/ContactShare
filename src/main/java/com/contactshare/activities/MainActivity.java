@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +39,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     private View lytContactDetail;
     private View lytQrCode;
     private VCard card;
+    private ProgressBar loadingIcon;
 
 
     @Override
@@ -52,6 +54,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         if (Utilities.isInitialSetupDone(ctx)) {
             lytContactDetail.setVisibility(View.GONE);
             lytQrCode.setVisibility(View.VISIBLE);
+            loadingIcon.setVisibility(View.VISIBLE);
             String sharedName = Utilities.getValueForKeyFromPref(ctx, Constants.KEY_NAME);
             String sharedNumber = Utilities.getValueForKeyFromPref(ctx, Constants.KEY_NUMBER);
             String sharedEmail = Utilities.getValueForKeyFromPref(ctx, Constants.KEY_EMAIL);
@@ -98,6 +101,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         btnConScan = (ImageButton) findViewById(R.id.btn_con_scan);
         //QR code on display mode
         imgQrCode = (ImageView) findViewById(R.id.img_qr_code);
+        loadingIcon = (ProgressBar) findViewById(R.id.loading_icon);
+        loadingIcon.setVisibility(View.GONE);
         lytQrCode.setVisibility(View.GONE);
         btnConGetQR.setTypeface(typeface);
         edtConName.setTypeface(typeface);
@@ -148,6 +153,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                     String contact = card.toString();
                     lytContactDetail.setVisibility(View.GONE);
                     lytQrCode.setVisibility(View.VISIBLE);
+                    loadingIcon.setVisibility(View.VISIBLE);
+                    imgQrCode.setVisibility(View.GONE);
                     new LoadQRAsyncTask().execute(contact);
                     Utilities.putValueIntoSharedPref(ctx, Constants.KEY_NAME, name);
                     Utilities.putValueIntoSharedPref(ctx, Constants.KEY_NUMBER, number);
@@ -184,6 +191,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         @Override
         protected void onPostExecute(Bitmap image) {
             imgQrCode.setImageBitmap(image);
+            loadingIcon.setVisibility(View.GONE);
+            imgQrCode.setVisibility(View.VISIBLE);
         }
     }
 }
