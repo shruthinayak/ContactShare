@@ -166,8 +166,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 edtConEmail.setText(Utilities.getValueForKeyFromPref(ctx, Constants.KEY_EMAIL));
                 break;
             case R.id.btn_con_scan:
-                Intent intent = new Intent(ACTION_SCAN);
-                intent.putExtra("SCAN_MODE", "QR_CODE_MODE");
+                Intent intent = new Intent(MainActivity.this, ScannerActivity.class);
                 startActivityForResult(intent, 0);
                 break;
             case R.id.imgHelp:
