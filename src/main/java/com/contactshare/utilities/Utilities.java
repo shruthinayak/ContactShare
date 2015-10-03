@@ -31,7 +31,7 @@ public class Utilities {
         } catch (WriterException ex) {
             ex.printStackTrace();
         }
-        int colorId = ctx.getResources().getColor(R.color.ColorLaceWhite);
+        int colorId = ctx.getResources().getColor(R.color.ColorGhostWhite);
         Bitmap bmp = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
@@ -42,7 +42,6 @@ public class Utilities {
     }
 
     public static boolean isInitialSetupDone(Context ctx) {
-        boolean isInitialSetup = false;
         sharedPref = ctx.getSharedPreferences(Constants.SHARED_PREF_NAME, 0);
         return !Constants.NULL_STRING.equals(sharedPref.getString(Constants.KEY_NAME, Constants.NULL_STRING));
     }

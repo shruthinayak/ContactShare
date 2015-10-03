@@ -111,16 +111,16 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
 
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if (requestCode == 0) {
             String contents = intent.getStringExtra("SCAN_RESULT");
-            if(!((contents.contains(Constants.KEY_NAME))&&(contents.contains(Constants.KEY_NUMBER))
-                &&(contents.contains(Constants.KEY_EMAIL)))){
+            if (contents==null || !((contents.contains(Constants.KEY_NAME)) && (contents.contains(Constants.KEY_NUMBER))
+                    && (contents.contains(Constants.KEY_EMAIL)))) {
                 Toast.makeText(getApplicationContext(), "Please scan the right QR Code.",
                         Toast.LENGTH_LONG).show();
-            }
-            else{
+            } else {
                 String fields[] = contents.split(";");
                 String name = fields[0].split(":")[1];
                 String number = fields[1].split(":")[1];
@@ -139,16 +139,13 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 String name = edtConName.getText().toString();
                 String number = edtConNumber.getText().toString();
                 String email = edtConEmail.getText().toString();
-                if((name.trim().length()<2)){
+                if ((name.trim().length() < 2)) {
                     edtConName.setError("Enter name");
-                }
-                else if(number.trim().length()<5){
+                } else if (number.trim().length() < 5) {
                     edtConNumber.setError("Enter number");
-                }
-                else if((email.trim().length()<2)||(!email.contains("@"))){
+                } else if ((email.trim().length() < 2) || (!email.contains("@"))) {
                     edtConEmail.setError("Enter email");
-                }
-                else {
+                } else {
                     card = new VCard(name, number, email);
                     String contact = card.toString();
                     lytContactDetail.setVisibility(View.GONE);
@@ -180,7 +177,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
         }
     }
-    class LoadQRAsyncTask extends AsyncTask<String, Void, Bitmap>{
+
+    class LoadQRAsyncTask extends AsyncTask<String, Void, Bitmap> {
 
         @Override
         protected Bitmap doInBackground(String[] params) {
@@ -194,5 +192,15 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             loadingIcon.setVisibility(View.GONE);
             imgQrCode.setVisibility(View.VISIBLE);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!Utilities.isInitialSetupDone(ctx) && lytContactDetail.getVisibility() == View.VISIBLE) {
+            finish();
+        } else if (lytContactDetail.getVisibility() == View.VISIBLE) {
+            lytContactDetail.setVisibility(View.GONE);
+            lytQrCode.setVisibility(View.VISIBLE);
+        } else finish();
     }
 }
