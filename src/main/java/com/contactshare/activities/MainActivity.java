@@ -1,6 +1,7 @@
 package com.contactshare.activities;
 
 import android.app.ActionBar;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -47,6 +48,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ctx = getApplicationContext();
+
         initUI();
         setOnClickListeners();
 
@@ -93,9 +95,17 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
         lytContactDetail = findViewById(R.id.lyt_contact_detail);
         lytQrCode = findViewById(R.id.lyt_qr_code);
+
         edtConName = (EditText) findViewById(R.id.edt_con_name);
         edtConNumber = (EditText) findViewById(R.id.edt_con_number);
         edtConEmail = (EditText) findViewById(R.id.edt_con_email);
+        VCard ownerInfo = Utilities.getUserContact(ctx);
+        if(ownerInfo!=null){
+            edtConName.setText(ownerInfo.getName());
+            edtConNumber.setText(ownerInfo.getNumber());
+            edtConEmail.setText(ownerInfo.getEmail());
+        }
+
         btnConGetQR = (Button) findViewById(R.id.btn_con_get_qr);
         btnConEdit = (ImageButton) findViewById(R.id.btn_con_edit);
         btnConScan = (ImageButton) findViewById(R.id.btn_con_scan);
@@ -114,9 +124,9 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        if (requestCode == 0) {
+        if (requestCode == 0 && resultCode== Activity.RESULT_OK) {
             String contents = intent.getStringExtra("SCAN_RESULT");
-            if (contents==null || !((contents.contains(Constants.KEY_NAME)) && (contents.contains(Constants.KEY_NUMBER))
+            if (contents == null || !((contents.contains(Constants.KEY_NAME)) && (contents.contains(Constants.KEY_NUMBER))
                     && (contents.contains(Constants.KEY_EMAIL)))) {
                 Toast.makeText(getApplicationContext(), "Please scan the right QR Code.",
                         Toast.LENGTH_LONG).show();

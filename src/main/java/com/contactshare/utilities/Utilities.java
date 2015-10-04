@@ -1,10 +1,16 @@
 package com.contactshare.utilities;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.provider.ContactsContract;
+import android.telephony.TelephonyManager;
 import android.widget.Toast;
 
 import com.contactshare.R;
@@ -59,16 +65,67 @@ public class Utilities {
     }
 
     public static void addToContact(Context ctx, VCard scannedContact) {
-        if(!doesContactAlreadyExist(ctx, scannedContact)){
+        if (!doesContactAlreadyExist(ctx, scannedContact)) {
             Intent intent1 = new Intent(Intent.ACTION_INSERT,
                     Contacts.CONTENT_URI);
             intent1.putExtra(Intents.Insert.NAME, scannedContact.getName());
             intent1.putExtra(Intents.Insert.PHONE, scannedContact.getNumber());
             intent1.putExtra(Intents.Insert.EMAIL, scannedContact.getEmail());
             ctx.startActivity(intent1);
-        } else{
+        } else {
             Toast.makeText(ctx, "Contact already exists in your phone!", Toast.LENGTH_LONG).show();
         }
+    }
+
+    public static VCard getUserContact(Context ctx) {
+        final AccountManager manager = AccountManager.get(ctx);
+        final Account[] accounts = manager.getAccountsByType("com.google");
+        String name = "";
+        String phone, email = "";
+        if (accounts[0].name != null) {
+            String accountName = accounts[0].name;
+
+            ContentResolver cr = ctx.getContentResolver();
+            Cursor emailCur = cr.query(
+                    ContactsContract.CommonDataKinds.Email.CONTENT_URI, null,
+                    ContactsContract.CommonDataKinds.Email.DATA + " = ?",
+                    new String[]{accountName}, null);
+            while (emailCur.moveToNext()) {
+
+                email = emailCur
+                        .getString(emailCur
+                                .getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA));
+                String newName = emailCur
+                        .getString(emailCur
+                                .getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+                if (name == null || newName.length() > name.length())
+                    name = newName;
+
+            }
+            TelephonyManager tMgr = (TelephonyManager) ctx.getSystemService(Context.TELEPHONY_SERVICE);
+            phone = tMgr.getLine1Number();
+
+            return new VCard(toTitleCase(name), phone, email);
+
+
+        }
+        return null;
+    }
+
+    public static String toTitleCase(String s) {
+        final String ACTIONABLE_DELIMITERS = " '-/"; // these cause the character following
+        // to be capitalized
+        StringBuilder sb = new StringBuilder();
+        boolean capNext = true;
+
+        for (char c : s.toCharArray()) {
+            c = (capNext)
+                    ? Character.toUpperCase(c)
+                    : Character.toLowerCase(c);
+            sb.append(c);
+            capNext = (ACTIONABLE_DELIMITERS.indexOf((int) c) >= 0); // explicit cast not needed
+        }
+        return sb.toString();
     }
 
     public static boolean doesContactAlreadyExist(Context ctx, VCard information) {
