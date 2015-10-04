@@ -11,7 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.provider.ContactsContract;
 import android.telephony.TelephonyManager;
-import android.widget.Toast;
+import android.util.Log;
 
 import com.contactshare.R;
 import com.contactshare.models.VCard;
@@ -31,19 +31,21 @@ public class Utilities {
         int width = Constants.QR_CODE_SIZE;
         int height = Constants.QR_CODE_SIZE;
         QRCodeWriter writer = new QRCodeWriter();
-        BitMatrix matrix = null;
+        BitMatrix matrix;
+        int colorId = ctx.getResources().getColor(R.color.ColorGhostWhite);
+        Bitmap bmp = null;
         try {
             matrix = writer.encode(text, BarcodeFormat.QR_CODE, width, height);
-        } catch (WriterException ex) {
-            ex.printStackTrace();
-        }
-        int colorId = ctx.getResources().getColor(R.color.ColorGhostWhite);
-        Bitmap bmp = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
-                bmp.setPixel(x, y, matrix.get(x, y) ? Color.BLACK : colorId);
+            bmp = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+            for (int x = 0; x < width; x++) {
+                for (int y = 0; y < height; y++) {
+                    bmp.setPixel(x, y, matrix.get(x, y) ? Color.BLACK : colorId);
+                }
             }
+        } catch (WriterException ex) {
+            Log.e(Constants.LOG_TAG, ex.getMessage());
         }
+
         return bmp;
     }
 
@@ -65,19 +67,15 @@ public class Utilities {
     }
 
     public static void addToContact(Context ctx, VCard scannedContact) {
-        if (!doesContactAlreadyExist(ctx, scannedContact)) {
-            Intent intent1 = new Intent(Intent.ACTION_INSERT,
-                    Contacts.CONTENT_URI);
-            intent1.putExtra(Intents.Insert.NAME, scannedContact.getName());
-            intent1.putExtra(Intents.Insert.PHONE, scannedContact.getNumber());
-            intent1.putExtra(Intents.Insert.EMAIL, scannedContact.getEmail());
-            ctx.startActivity(intent1);
-        } else {
-            Toast.makeText(ctx, "Contact already exists in your phone!", Toast.LENGTH_LONG).show();
-        }
+        Intent intent1 = new Intent(Intent.ACTION_INSERT,
+                Contacts.CONTENT_URI);
+        intent1.putExtra(Intents.Insert.NAME, scannedContact.getName());
+        intent1.putExtra(Intents.Insert.PHONE, scannedContact.getNumber());
+        intent1.putExtra(Intents.Insert.EMAIL, scannedContact.getEmail());
+        ctx.startActivity(intent1);
     }
 
-    public static VCard getUserContact(Context ctx) {
+    public static VCard getOwnerDetails(Context ctx) {
         final AccountManager manager = AccountManager.get(ctx);
         final Account[] accounts = manager.getAccountsByType("com.google");
         String name = "";
@@ -98,13 +96,13 @@ public class Utilities {
                 String newName = emailCur
                         .getString(emailCur
                                 .getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-                if (name == null || newName.length() > name.length())
+                if (newName.length() > name.length())
                     name = newName;
 
             }
+            emailCur.close();
             TelephonyManager tMgr = (TelephonyManager) ctx.getSystemService(Context.TELEPHONY_SERVICE);
             phone = tMgr.getLine1Number();
-
             return new VCard(toTitleCase(name), phone, email);
 
 
@@ -126,9 +124,5 @@ public class Utilities {
             capNext = (ACTIONABLE_DELIMITERS.indexOf((int) c) >= 0); // explicit cast not needed
         }
         return sb.toString();
-    }
-
-    public static boolean doesContactAlreadyExist(Context ctx, VCard information) {
-        return false;
     }
 }

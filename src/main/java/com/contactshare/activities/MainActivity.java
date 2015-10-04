@@ -11,8 +11,6 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -28,7 +26,6 @@ import com.contactshare.utilities.Utilities;
 
 public class MainActivity extends ActionBarActivity implements View.OnClickListener {
 
-    static final String ACTION_SCAN = "com.google.zxing.client.android.SCAN";
     private Context ctx;
     private EditText edtConName;
     private EditText edtConNumber;
@@ -78,20 +75,24 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     private void initUI() {
         Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/GandhiSans-Regular.otf");
         Typeface mainTypeFace = Typeface.createFromAsset(getAssets(), "fonts/Sabrinahandfont.ttf");
-        Window window = MainActivity.this.getWindow();
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(MainActivity.this.getResources().getColor(R.color.ColorLockGreenTranslucent));
+//        Window window = MainActivity.this.getWindow();
+//        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+//        window.setStatusBarColor(MainActivity.this.getResources().getColor(R.color.ColorLockGreenTranslucent));
 
         ActionBar mActionBar = getActionBar();
-        mActionBar.setDisplayShowHomeEnabled(false);
-        mActionBar.setDisplayShowTitleEnabled(false);
         LayoutInflater mInflater = LayoutInflater.from(this);
         View mCustomView = mInflater.inflate(R.layout.activity_action_bar, null);
         mCustomView.findViewById(R.id.imgHelp).setOnClickListener(this);
+        if (mActionBar != null) {
+            mActionBar.setDisplayShowHomeEnabled(false);
+            mActionBar.setDisplayShowTitleEnabled(false);
+            mActionBar.setCustomView(mCustomView);
+            mActionBar.setDisplayShowCustomEnabled(true);
+        }
+
         TextView txtAppName = (TextView) mCustomView.findViewById(R.id.txtAppName);
         txtAppName.setTypeface(mainTypeFace);
-        mActionBar.setCustomView(mCustomView);
-        mActionBar.setDisplayShowCustomEnabled(true);
+
 
         lytContactDetail = findViewById(R.id.lyt_contact_detail);
         lytQrCode = findViewById(R.id.lyt_qr_code);
@@ -99,8 +100,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         edtConName = (EditText) findViewById(R.id.edt_con_name);
         edtConNumber = (EditText) findViewById(R.id.edt_con_number);
         edtConEmail = (EditText) findViewById(R.id.edt_con_email);
-        VCard ownerInfo = Utilities.getUserContact(ctx);
-        if(ownerInfo!=null){
+        VCard ownerInfo = Utilities.getOwnerDetails(ctx);
+        if (ownerInfo != null) {
             edtConName.setText(ownerInfo.getName());
             edtConNumber.setText(ownerInfo.getNumber());
             edtConEmail.setText(ownerInfo.getEmail());
@@ -124,7 +125,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        if (requestCode == 0 && resultCode== Activity.RESULT_OK) {
+        if (requestCode == 0 && resultCode == Activity.RESULT_OK) {
             String contents = intent.getStringExtra("SCAN_RESULT");
             if (contents == null || !((contents.contains(Constants.KEY_NAME)) && (contents.contains(Constants.KEY_NUMBER))
                     && (contents.contains(Constants.KEY_EMAIL)))) {
@@ -197,7 +198,11 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
         @Override
         protected void onPostExecute(Bitmap image) {
-            imgQrCode.setImageBitmap(image);
+            if(image!=null) {
+                imgQrCode.setImageBitmap(image);
+            } else{
+                Toast.makeText(ctx, "Sorry. Couldn't generate QR code. Please try again", Toast.LENGTH_LONG).show();
+            }
             loadingIcon.setVisibility(View.GONE);
             imgQrCode.setVisibility(View.VISIBLE);
         }

@@ -11,4 +11,6 @@ public interface Constants {
 
     public final int QR_CODE_SIZE = 700;
 
+    String KEY_LOGIN = "login";
+    String LOG_TAG = "ContactShare";
 }

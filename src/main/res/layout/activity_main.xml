@@ -52,12 +52,12 @@
                 android:layout_alignBottom="@id/imgName"
                 android:layout_marginTop="15dp"
                 android:layout_toRightOf="@+id/imgName"
-                android:hint="Enter your name here"
                 android:ems="9"
+                android:hint="Enter your name here"
                 android:paddingBottom="0dp"
+                android:singleLine="true"
                 android:textColor="@color/ColorLockBlack"
-                android:textSize="18dp"
-                android:singleLine="true"/>
+                android:textSize="18dp" />
 
             <ImageView
                 android:id="@+id/imgPhone"
@@ -73,13 +73,13 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@id/imgPhone"
                 android:layout_toRightOf="@+id/imgPhone"
+                android:ems="9"
                 android:hint="Your phone number?"
                 android:inputType="phone"
-                android:ems="9"
                 android:paddingBottom="0dp"
+                android:singleLine="true"
                 android:textColor="@color/ColorLockBlack"
-                android:textSize="18dp"
-                android:singleLine="true"/>
+                android:textSize="18dp" />
 
             <ImageView
                 android:id="@+id/imgEmail"
@@ -96,10 +96,10 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@id/imgEmail"
                 android:layout_toEndOf="@id/imgEmail"
-                android:inputType="textEmailAddress"
                 android:ellipsize="end"
                 android:ems="9"
                 android:hint="Email Address"
+                android:inputType="textEmailAddress"
                 android:lines="1"
                 android:paddingBottom="0dp"
                 android:singleLine="true"
@@ -134,23 +134,14 @@
         android:visibility="visible">
 
         <ProgressBar
+            android:id="@+id/loading_icon"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:indeterminate="true"
             android:layout_centerHorizontal="true"
             android:layout_marginLeft="50dp"
             android:layout_marginTop="100dp"
-            android:id="@+id/loading_icon"/>
+            android:indeterminate="true" />
 
-
-        <ImageView
-            android:id="@+id/img_qr_code"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginLeft="50dp"
-            android:layout_marginTop="50dp"
-            android:background="@color/ColorGhostWhite" />
 
         <ImageButton
 
@@ -163,6 +154,7 @@
             android:padding="10dp"
             android:src="@drawable/edit" />
 
+
         <ImageButton
             android:id="@+id/btn_con_scan"
             android:layout_width="wrap_content"
@@ -172,6 +164,17 @@
             android:background="@color/ColorGhostWhite"
             android:padding="10dp"
             android:src="@drawable/scan" />
+
+        <ImageView
+            android:id="@+id/img_qr_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/btn_con_scan"
+            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
+            android:layout_weight="30"
+            android:background="@color/ColorGhostWhite"
+            android:src="@drawable/profile" />
 
     </RelativeLayout>
 
