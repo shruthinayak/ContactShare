@@ -171,8 +171,6 @@
             android:layout_height="wrap_content"
             android:layout_above="@id/btn_con_scan"
             android:layout_centerHorizontal="true"
-            android:layout_centerInParent="true"
-            android:layout_weight="30"
             android:background="@color/ColorGhostWhite"
             android:src="@drawable/profile" />
 

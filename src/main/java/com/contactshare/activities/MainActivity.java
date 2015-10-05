@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -120,7 +121,9 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         edtConNumber.setTypeface(typeface);
         edtConEmail.setTypeface(typeface);
 
-
+        RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) imgQrCode.getLayoutParams();
+        lp.setMargins(0, 0, 0, Utilities.getMarginBottomDeviceSpecific(ctx));
+        imgQrCode.setLayoutParams(lp);
     }
 
     @Override

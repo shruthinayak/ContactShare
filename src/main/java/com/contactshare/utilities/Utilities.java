@@ -9,9 +9,12 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.provider.ContactsContract;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.view.Display;
+import android.view.WindowManager;
 
 import com.contactshare.R;
 import com.contactshare.models.VCard;
@@ -124,5 +127,17 @@ public class Utilities {
             capNext = (ACTIONABLE_DELIMITERS.indexOf((int) c) >= 0); // explicit cast not needed
         }
         return sb.toString();
+    }
+
+    public static int getMarginBottomDeviceSpecific(Context ctx){
+        WindowManager wm = (WindowManager) ctx.getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+        int height = size.y;
+        Log.i(Constants.LOG_TAG, (int) (0.15*height)+"");
+        return (int) (0.15*height);
+
     }
 }

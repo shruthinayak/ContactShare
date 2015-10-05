@@ -34,8 +34,8 @@ public class ScannerActivity extends Activity implements ZXingScannerView.Result
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(ScannerActivity.this, MainActivity.class);
-        startActivity(intent);
+        Intent intent = new Intent();
+        setResult(Activity.RESULT_CANCELED, intent);
         finish();
     }
 
