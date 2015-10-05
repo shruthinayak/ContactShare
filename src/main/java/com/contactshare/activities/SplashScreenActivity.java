@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.widget.TextView;
 
 import com.contactshare.R;
@@ -22,14 +21,14 @@ public class SplashScreenActivity extends ActionBarActivity {
         Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/Sabrinahandfont.ttf");
         TextView txtLauncherTitle = (TextView) findViewById(R.id.txtLauncherTitle);
         txtLauncherTitle.setTypeface(typeface);
-        if(!Utilities.getValueForKeyFromPref(SplashScreenActivity.this, Constants.KEY_LOGIN).equals("true")){
+        if (!Utilities.getValueForKeyFromPref(SplashScreenActivity.this, Constants.KEY_LOGIN).equals("true")) {
             Thread timerThread = new Thread() {
                 public void run() {
                     try {
                         Utilities.putValueIntoSharedPref(SplashScreenActivity.this, Constants.KEY_LOGIN, "true");
                         sleep(3000);
                     } catch (InterruptedException e) {
-                        Log.e(Constants.LOG_TAG, e.getMessage());
+
                     } finally {
                         Intent intent = new Intent(SplashScreenActivity.this, MainActivity.class);
                         startActivity(intent);

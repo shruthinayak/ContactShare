@@ -12,7 +12,6 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.provider.ContactsContract;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 
@@ -46,7 +45,7 @@ public class Utilities {
                 }
             }
         } catch (WriterException ex) {
-            Log.e(Constants.LOG_TAG, ex.getMessage());
+
         }
 
         return bmp;
@@ -129,15 +128,14 @@ public class Utilities {
         return sb.toString();
     }
 
-    public static int getMarginBottomDeviceSpecific(Context ctx){
+    public static int getMarginBottomDeviceSpecific(Context ctx) {
         WindowManager wm = (WindowManager) ctx.getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
         int width = size.x;
         int height = size.y;
-        Log.i(Constants.LOG_TAG, (int) (0.15*height)+"");
-        return (int) (0.15*height);
+        return (int) (0.15 * height);
 
     }
 }

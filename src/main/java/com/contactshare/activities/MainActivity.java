@@ -201,9 +201,9 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
         @Override
         protected void onPostExecute(Bitmap image) {
-            if(image!=null) {
+            if (image != null) {
                 imgQrCode.setImageBitmap(image);
-            } else{
+            } else {
                 Toast.makeText(ctx, "Sorry. Couldn't generate QR code. Please try again", Toast.LENGTH_LONG).show();
             }
             loadingIcon.setVisibility(View.GONE);
